@@ -11,7 +11,7 @@ class CreateUserService {
   async execute({ name, email, admin }: IUserRequest) {
     const userRepository = getCustomRepository(UsersRepositories);
     const userAlreadyExists = await userRepository.findOne({ email });
-
+    
     // Verifica se e-mail esta preenchido
     if (!email) {
       throw new Error("Email incorrect");
