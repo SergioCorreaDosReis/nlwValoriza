@@ -29,6 +29,3 @@ class User {
 }
 
 export { User };
-function CreateDateColumnate() {
-  throw new Error("Function not implemented.");
-}
