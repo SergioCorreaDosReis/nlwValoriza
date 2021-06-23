@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import { AppError } from "../errors/AppError";
 
 export function ensureAdmin(
   request: Request,
@@ -7,11 +8,12 @@ export function ensureAdmin(
 ) {
   const admin = true;
 
-  if (admin) {
-    return next();
+  if (!admin) {
+    throw new AppError(
+      "User does not have permission to execute this operation!",
+      401
+    );
   }
 
-  return response.status(401).json({
-    error: "User does not have acess!",
-  });
+  return next();
 }

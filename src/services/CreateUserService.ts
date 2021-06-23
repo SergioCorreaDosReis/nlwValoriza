@@ -1,4 +1,5 @@
 import { getCustomRepository } from "typeorm";
+import { AppError } from "../errors/AppError";
 import { UsersRepositories } from "../repositories/UsersRepositories";
 
 interface IUserRequest {
@@ -14,11 +15,11 @@ class CreateUserService {
     
     // Verifica se e-mail esta preenchido
     if (!email) {
-      throw new Error("Email incorrect");
+      throw new AppError("Email incorrect",404);
     }
     // consulta de usuario existe
     if (userAlreadyExists) {
-      throw new Error("User already exists");
+      throw new AppError("User already exists",400);
     }
 
     const user = userRepository.create({
