@@ -8,21 +8,21 @@ interface IUserRequest {
   name: string;
   email: string;
   admin: boolean;
-  password: string
+  password: string;
 }
 
 class CreateUserService {
-  async execute({ name, email, admin, password }: IUserRequest) {
+  async execute({ name, email, admin = false, password }: IUserRequest) {
     const userRepository = getCustomRepository(UsersRepositories);
     const userAlreadyExists = await userRepository.findOne({ email });
-    
+
     // Verifica se e-mail esta preenchido
     if (!email) {
-      throw new AppError("Email incorrect",404);
+      throw new AppError("Email incorrect", 404);
     }
     // consulta de usuario existe
     if (userAlreadyExists) {
-      throw new AppError("User already exists",400);
+      throw new AppError("User already exists", 400);
     }
     const passwordHash = await hash(password, 8);
 
@@ -30,7 +30,7 @@ class CreateUserService {
       name,
       email,
       admin,
-      password: passwordHash
+      password: passwordHash,
     });
     await userRepository.save(user);
 
