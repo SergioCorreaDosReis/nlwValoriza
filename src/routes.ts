@@ -17,10 +17,11 @@ const createTagController = new CreateTagController();
 const authenticateUserController = new AuthenticateUserController();
 const createComplimentController = new CreateComplimentController();
 const listUserSendComplimentController = new ListUserSendComplimentController();
-const listUserReceiveComplimentController =
-  new ListUserReceiveComplimentController();
+const listUserReceiveComplimentController = new ListUserReceiveComplimentController();
 const listTagController = new ListTagController();
 const listUsersController = new ListUsersController()
+
+
 
 router.post("/users", createUserController.handle);
 router.post(
@@ -49,7 +50,7 @@ router.get(
 );
 
 router.get("/tags", ensureAuthenticate, listTagController.handle);
-
 router.get("/users",ensureAuthenticate, listUsersController.handle)
+
 
 export { router };
