@@ -2,3 +2,4 @@ node_modules
 .vscode
 tmp
 desafio_senhas
+yarn-error.log
