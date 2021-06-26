@@ -18,7 +18,7 @@ class CreateUserService {
 
     // Verifica se e-mail esta preenchido
     if (!email) {
-      throw new AppError("Email incorrect", 404);
+      throw new AppError("Email was not informed", 404);
     }
     // consulta de usuario existe
     if (userAlreadyExists) {

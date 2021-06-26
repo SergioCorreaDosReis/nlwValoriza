@@ -7,12 +7,12 @@ class CreateTagService {
     const tagsRepositories = getCustomRepository(TagsRepositories);
 
     if (!name) {
-      throw new AppError("Incorrect name!",404);
+      throw new AppError("Name not informed", 404);
     }
     const tagAlreadyExists = await tagsRepositories.findOne({ name });
 
     if (tagAlreadyExists) {
-      throw new AppError("Tag already Exists!",400);
+      throw new AppError("Tag already Exists!", 400);
     }
 
     const tag = tagsRepositories.create({ name });

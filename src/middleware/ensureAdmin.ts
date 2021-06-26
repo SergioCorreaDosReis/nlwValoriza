@@ -9,7 +9,7 @@ export async function ensureAdmin(
   next: NextFunction
 ) {
   const { user_id } = request;
-  console.log(user_id);
+  
 
   const usersRepositories = getCustomRepository(UsersRepositories);
 

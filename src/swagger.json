@@ -1,0 +1,163 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "NLW Valoriza APP Documentation",
+    "description": "This is an APÌ of application 'NLW Valoriza'",
+    "version": "1.0.0",
+    "contact": {
+      "email": "sergio.reis@scrtechnologia.com"
+    }
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Create a new user",
+        "description": "This operation create a new user of app",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "Rodrigo",
+                  "email": "rodrigo@nlw.com",
+                  "password": "123"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User was successfully created"
+          },
+          "404": {
+            "description": "E-mail was not informed"
+          },
+          "400": {
+            "description": "User already exists"
+          }
+        }
+      },
+      "get": {
+        "security": [{ "bearerAuth": [] }],
+        "tags": ["User"],
+        "summary": "Returns a list of users",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "A JSON array of users content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Token missing or invalid"
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": ["Authenticate"],
+        "summary": "User authentication",
+        "description": "User authentication by use e-mail and password",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "email": "user.test@nlw.com",
+                  "password": "12345"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Access token was successfully generated"
+          },
+          "401": {
+            "description": "Email/Password incorrect"
+          }
+        }
+      }
+    },
+    "/tags": {
+      "post": {
+        "security": [{"bearerAuth": []}],
+        "tags": ["Tags"],
+        "summary": "Create a new tag",
+        "description": "Create a new tag",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "Dedicado"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tag was created successfully"
+          },
+          "400": {
+            "description": "Tag already Exists!"
+          }
+          ,
+          "404": {
+            "description": "Tag name not informed"
+          }
+        }
+      }
+    }
+  },
+  
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

@@ -24,12 +24,17 @@ const listUsersController = new ListUsersController()
 
 
 router.post("/users", createUserController.handle);
+router.get("/users",ensureAuthenticate, listUsersController.handle)
+
 router.post(
   "/tags",
   ensureAuthenticate,
   ensureAdmin,
   createTagController.handle
 );
+router.get("/tags", ensureAuthenticate, listTagController.handle);
+
+
 router.post("/login", authenticateUserController.handle);
 router.post(
   "/compliments",
@@ -49,8 +54,8 @@ router.get(
   listUserReceiveComplimentController.handle
 );
 
-router.get("/tags", ensureAuthenticate, listTagController.handle);
-router.get("/users",ensureAuthenticate, listUsersController.handle)
+
+
 
 
 export { router };
