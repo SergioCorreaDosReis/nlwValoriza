@@ -35,5 +35,4 @@ export function ensureAuthenticate(
     throw new AppError("Invalid token!", 401);
   }
 
-  // Recuperar informação de usuario
 }

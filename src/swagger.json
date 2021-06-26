@@ -9,6 +9,42 @@
     }
   },
   "paths": {
+    "/login": {
+      "post": {
+        "tags": ["Authenticate"],
+        "summary": "User authentication",
+        "description": "User authentication by use e-mail and password",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "email": "sergio@nlw.com",
+                  "password": "999"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Access token was successfully generated"
+          },
+          "401": {
+            "description": "Email/Password incorrect"
+          }
+        }
+      }
+    },
     "/users": {
       "post": {
         "tags": ["User"],
@@ -64,7 +100,24 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "type": "string"
+                    "type":"object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "created_at": {
+                        "type": "string"
+                      },
+                      "update_at": {
+                        "type": "string"
+                      }
+                    }
                   }
                 }
               }
@@ -76,45 +129,9 @@
         }
       }
     },
-    "/login": {
-      "post": {
-        "tags": ["Authenticate"],
-        "summary": "User authentication",
-        "description": "User authentication by use e-mail and password",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "description": {
-                    "type": "string"
-                  }
-                },
-                "example": {
-                  "email": "user.test@nlw.com",
-                  "password": "12345"
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Access token was successfully generated"
-          },
-          "401": {
-            "description": "Email/Password incorrect"
-          }
-        }
-      }
-    },
     "/tags": {
       "post": {
-        "security": [{"bearerAuth": []}],
+        "security": [{ "bearerAuth": [] }],
         "tags": ["Tags"],
         "summary": "Create a new tag",
         "description": "Create a new tag",
@@ -141,16 +158,141 @@
           },
           "400": {
             "description": "Tag already Exists!"
+          },
+          "401": {
+            "description": "User Unauthorize, only users admin can execute this action"
+          },
+          "404": {
+            "description": "Tag name not informed"
           }
-          ,
+        }
+      },
+      "get": {
+        "security": [{ "bearerAuth": [] }],
+        "tags": ["Tags"],
+        "summary": "Returns a list of all tags",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "A JSON array of users content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type":"object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "created_at": {
+                        "type": "string"
+                      },
+                      "update_at": {
+                        "type": "string"
+                      },
+                      "HashTag": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Token missing or invalid"
+          }
+        }
+      }
+    },
+    "/compliments": {
+      "post": {
+        "security": [{ "bearerAuth": [] }],
+        "tags": ["Compliments"],
+        "summary": "Create a new compliment to someone else",
+        "description": "Create a new tag",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "tag_id": "0dfcf99e-38ba-4605-895b-3c03c5bfd624",
+                  "user_receiver": "1d30564b-6897-4aad-804b-4d58dd750866",
+                  "message": "Valeu pela ajuda, ontem seu apoio na apresentação foi essencial"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tag was created successfully"
+          },
+          "400": {
+            "description": "Tag already Exists!"
+          },
+          "401": {
+            "description": "User Unauthorize, only users admin can execute this action"
+          },
           "404": {
             "description": "Tag name not informed"
           }
         }
       }
+    },
+    "/users/compliments/send": {
+      "get": {
+        "security": [{ "bearerAuth": [] }],
+        "tags": ["Compliments"],
+        "summary": "Returns the list of compliments sent by the logged in user",
+        "description": "Returns the list of compliments sent by the logged in user",
+        "responses": {
+          "200": {
+            "description": "A JSON array of compliments sent",
+            "content": {
+              "application/json": {
+              }
+            }
+          },
+          "404": {
+            "description": "Token missing or invalid"
+          }
+        }
+      }
+    },
+    "users/compliments/receive": {
+      "get": {
+        "security": [{ "bearerAuth": [] }],
+        "tags": ["Compliments"],
+        "summary": "Returns the list of compliments received by the logged in user",
+        "description": "Returns the list of compliments received by the logged in user",
+        "responses": {
+          "200": {
+            "description": "A JSON array of compliments received",
+            "content": {
+              "application/json": {
+
+              }
+            }
+          },
+          "404": {
+            "description": "Token missing or invalid"
+          }
+        }
+      }
     }
   },
-  
+
   "components": {
     "securitySchemes": {
       "bearerAuth": {
